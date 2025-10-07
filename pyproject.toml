@@ -1,0 +1,14 @@
+
+[project]
+name = "stageflow-etl"
+version = "0.1.0"
+description = "StageFlow ETL — Oracle/Web/Sheets/OneDrive to MSSQL Staging"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools]
+packages = ["etl"]
+
+[tool.setuptools.package-dir]
+etl = "src/etl"

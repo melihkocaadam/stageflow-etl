@@ -1,0 +1,8 @@
+pandas
+python-dotenv
+oracledb
+pyodbc
+requests
+gspread
+google-auth
+msal

@@ -1,0 +1,99 @@
+{
+  "default_period_minutes": 60,
+  "tables": [
+    {
+      "source_type": "webapi",
+      "source_alias": "WEBSVC",
+      "table_name": "NEWS",
+      "url": "https://api.example.com/news",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN"
+      },
+      "params": {
+        "lang": "tr"
+      },
+      "json_path": "items",
+      "pagination": {
+        "type": "page",
+        "page_param": "page",
+        "start_page": 1,
+        "max_pages": 10,
+        "page_size_param": "limit",
+        "page_size": 100
+      },
+      "increment_column": "published_at",
+      "increment_param": "since",
+      "target_table": "NEWS",
+      "key_columns": [
+        "id"
+      ],
+      "period_minutes": 15,
+      "transforms": [
+        {
+          "name": "rename_columns",
+          "args": {
+            "mapping": {
+              "title_tr": "title"
+            }
+          }
+        },
+        {
+          "name": "cast_columns",
+          "args": {
+            "mapping": {
+              "published_at": "datetime"
+            }
+          }
+        },
+        {
+          "name": "drop_columns",
+          "args": {
+            "columns": [
+              "debug"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_type": "oracle",
+      "source_alias": "ORAIFS",
+      "table_name": "CUSTOMER",
+      "source_sql": "SELECT CUSTOMER_ID, NAME, EMAIL, UPDATED_AT FROM IFSAPP.CUSTOMER",
+      "increment_column": "UPDATED_AT",
+      "target_table": "CUSTOMER",
+      "key_columns": [
+        "CUSTOMER_ID"
+      ],
+      "period_minutes": 60
+    },
+    {
+      "source_type": "google_sheets",
+      "source_alias": "GDRIVE",
+      "table_name": "PRICE_LIST",
+      "spreadsheet_id": "1abcdEFghIJkLmNoPq...",
+      "worksheet": "Sheet1",
+      "increment_column": null,
+      "target_table": "PRICE_LIST",
+      "key_columns": [
+        "SKU"
+      ],
+      "period_minutes": 1440
+    },
+    {
+      "source_type": "onedrive_excel",
+      "source_alias": "ONEDRIVE",
+      "table_name": "SALES",
+      "file_item_id": "01ABCDEF23456789!12345",
+      "worksheet": "Sales2025",
+      "increment_column": "UPDATED_AT",
+      "target_table": "SALES",
+      "key_columns": [
+        "ORDER_ID",
+        "LINE_NO"
+      ],
+      "period_minutes": 120
+    }
+  ]
+}
